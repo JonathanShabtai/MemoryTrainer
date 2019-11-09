@@ -15,10 +15,10 @@ The project will be broken down into the following components (modules and class
 * Random Number and Word generator (List_Generator class)
 * A quiz module to practice recall for user specific systems (Quiz class)
 * A training module (Training class) for:
-** random numbers (time to review and length of string to be indicated by the user)
-** famous number (pi, e)
-** deck of cards (include cards requested by user)
-** any other memory endeavor costumized by user.
+  * random numbers (time to review and length of string to be indicated by the user)
+  * famous number (pi, e)
+  * deck of cards (include cards requested by user)
+  * any other memory endeavor costumized by user.
 
 Aside from the itertools and random Built-in modules, the Third-party packages I look to use are:
 * Pyspellchecker - to avoid frustrating experience for the user.
