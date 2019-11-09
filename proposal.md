@@ -8,16 +8,16 @@ In a similar fashion to string digit memorization, the program will include: dec
 
 ## Breakdown
 The project will be broken down into the following components (modules and classes):
-User specific authentication (User class)
-Memory Palaces for each user (Palace class)
-Memory Systems for each user (Systems class including number mnemonics and PAO’s)
-Personal recall database for each user (Recall class)
-Random Number and Word generator (List_Generator class)
-A quiz module to practice recall (Quiz class)
-A training module (Training class)
+* User specific authentication (User class)
+* Memory Palaces for each user (Palace class)
+* Memory Systems for each user (Systems class including number mnemonics and PAO’s)
+* Personal recall database for each user (Recall class)
+* Random Number and Word generator (List_Generator class)
+* A quiz module to practice recall (Quiz class)
+* A training module (Training class)
 
 Aside from the itertools and random Built-in modules, the Third-party packages I look to use are:
-Pyspellchecker - to avoid frustrating experience for the user.
-Pandas - to easily work with CSV files where information will be stored, and develop recalling statistics for every user.
+* Pyspellchecker - to avoid frustrating experience for the user.
+* Pandas - to easily work with CSV files where information will be stored, and develop recalling statistics for every user.
 
 I am considering using tkinter, PySide2, or PySimpleGUI for building a native application instead of running everything on the terminal window as a stretch goal.
