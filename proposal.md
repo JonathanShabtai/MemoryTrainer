@@ -16,7 +16,7 @@ The project will be broken down into the following components (modules and class
 * A quiz module to practice recall for user specific systems (Quiz class)
 * A training module (Training class) for:
   * random numbers (time to review and length of string to be indicated by the user)
-  * famous number (pi, e)
+  * famous number with strictness indicated by user (number of mistakes and time) (pi, e)
   * deck of cards (include cards requested by user)
   * any other memory endeavor costumized by user.
 
