@@ -21,8 +21,8 @@ The project will be broken down into the following components (modules and class
   * any other memory endeavor costumized by user.
 
 Aside from the itertools and random Built-in modules, the Third-party packages I look to use are:
-* Pyspellchecker - to avoid frustrating experience for the user.
-* PyDictionary - to complete major system suggestions and fetch words for random words list.
-* Pandas - to easily work with CSV files where information will be stored, and develop recalling statistics for every user.
+* [Pyspellchecker] (https://pypi.org/project/pyspellchecker/) - to avoid frustrating experience for the user.
+* [PyDictionary] (https://pypi.org/project/PyDictionary/) - to complete major system suggestions and fetch words for random words list.
+* [Pandas] (https://pandas.pydata.org/) - to easily work with CSV files where information will be stored, and develop recalling statistics for every user.
 
 I am considering using tkinter, PySide2, or PySimpleGUI for building a native application instead of running everything on the terminal window as a stretch goal.
