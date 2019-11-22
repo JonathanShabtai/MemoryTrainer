@@ -146,13 +146,33 @@ def random_digits():
 def review():
     print(pd.read_csv('JSystem.csv', delimiter=','))
     f = pd.read_csv('JSystem.csv', delimiter=',')
-    for _ in range(5):
-        number = random.randrange(0, 100, 1)
-        print(number)
-        print(f.loc[[number]])
+    while True:
+        for _ in range(5):
+            number = random.randrange(0, 100, 1)
+            print(number)
+            print(f.loc[[number]])
+        q = input('Enter q to quit: ')
+        if q == 'q':
+            break
 
 def random_words():
     pass
+
+def testing():
+    f = pd.read_csv('nelsonpeg.csv', delimiter=',')
+    while True:
+        number = random.randrange(0, 20, 1)
+        print(number)
+        peg = input('What is the peg? ')
+        print(f['Peg'][number])
+        if peg == str(f['Peg'][number]):
+            continue
+        else:
+            quit()
+        print(f.loc[[number]])
+        q = input('Enter q to quit: ')
+        if q == 'q':
+            break
 
 def main():
     os.system('clear')
@@ -166,6 +186,8 @@ def main():
         deck_recall()
     elif game == 'r':
         review()
+    elif game == 'test':
+        testing()
 
 if __name__ == '__main__':
     main()
