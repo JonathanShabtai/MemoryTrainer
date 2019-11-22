@@ -1,5 +1,8 @@
 import random
 import time
+import os
+from threading import Timer
+import pandas as pd
 
 
 class User:
@@ -98,9 +101,24 @@ def random_digits():
         j = random.randrange(0, 10, 1)
         sequence += str(j)
 
+    sec = 5
+
+    def timeout():
+        """ using threaing for a recall timer """
+        print('Time is up!')
+
+    # starting the timer
+    t = Timer(sec, timeout)
+    t.start()
+
     print(sequence)
-    print('Now recall.') # Add timer and erase the sequence
-    print(len(sequence))
+    print(f'Now recall. You have {sec} seconds to work on it!') # Add timer and erase the sequence
+    
+    # join as time is up   
+    t.join()
+
+    print('*******')
+    os.system('clear') 
 
     segments_of_recall = int(input('How many digits would you like to recall at a time? '))
 
@@ -125,17 +143,29 @@ def random_digits():
             print(f'You guessed {your_guess}')
             print(f'The answer was {correct_guess}')
 
+def review():
+    print(pd.read_csv('JSystem.csv', delimiter=','))
+    f = pd.read_csv('JSystem.csv', delimiter=',')
+    for _ in range(5):
+        number = random.randrange(0, 100, 1)
+        print(number)
+        print(f.loc[[number]])
+
 def random_words():
     pass
 
 def main():
-    game = input('Would like to recall random digits, pi, or cards? Enter pi / random / cards: ').lower()
+    os.system('clear')
+    print('Welcome to my memory trainer!')
+    game = input('Would like to recall random digits, pi, or cards? Enter pi / random / cards: Or review your system? Enter r: ').lower()
     if game == 'pi':
         pi_recall()
     elif game == 'random':
         random_digits()
     elif game == 'cards':
         deck_recall()
+    elif game == 'r':
+        review()
 
 if __name__ == '__main__':
     main()
