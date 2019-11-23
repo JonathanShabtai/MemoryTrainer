@@ -158,6 +158,16 @@ def review():
 def random_words():
     pass
 
+def pao_helper(num, position):
+    f = pd.read_csv('JSystem.csv', delimiter=',')
+    positionDict = {
+        1: 'P',
+        2: 'A',
+        3: 'O'
+    }
+    print(f.loc[num, positionDict[position]])
+
+
 def testing():
     f = pd.read_csv('nelsonpeg.csv', delimiter=',')
     while True:
@@ -168,11 +178,31 @@ def testing():
         if peg == str(f['Peg'][number]):
             continue
         else:
-            quit()
+            pass
         print(f.loc[[number]])
         q = input('Enter q to quit: ')
         if q == 'q':
             break
+
+def testing2():
+    f = pd.read_csv('JSystem.csv', delimiter=',')
+    while True:
+        number = random.randrange(0, 100, 1)
+        print(number)
+        peg = input('Who is the person? ')
+        #print(f['N'][number])
+        pao_helper(number, random.randrange(1, 4, 1))
+        if peg == str(f['N'][number]):
+            continue
+        else:
+            pass
+        #print(f.loc[[number]])
+        q = input('Enter q to quit: ')
+        if q == 'q':
+            break
+
+def create_system():
+    pass # use pandas DataFrame to convert from dictionary
 
 def main():
     os.system('clear')
@@ -188,6 +218,8 @@ def main():
         review()
     elif game == 'test':
         testing()
+    elif game == 'test2':
+        testing2()
 
 if __name__ == '__main__':
     main()
