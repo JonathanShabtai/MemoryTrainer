@@ -3,7 +3,8 @@ import time
 import os
 from threading import Timer
 import pandas as pd
-from bs4 import BeautifulSoup
+import re
+
 
 
 class User:
@@ -32,7 +33,43 @@ class User:
         elif game == 'test':
             testing()
         elif game == 'test2':
-            testing2()        
+            testing2()
+
+    def major(self):
+        df = pd.read_csv('major_dictionary.csv', index_col=0)
+        d = df.to_dict('split')
+        d = dict(zip(d['index'], d['data']))
+
+        number = input('Which number would you like to review? q to quit. ')
+        while number != 'q':
+            words = []
+            for word in d[int(number)]:
+                if isinstance(word, str): # Do not print nan values from the pandas table
+                    words.append(word)
+            print(words)
+            number = input('Which number would you like to review? q to quit. ')
+
+    def random_digits_with_major(self):
+        df = pd.read_csv('major_dictionary.csv', index_col=0)
+        d = df.to_dict('split')
+        d = dict(zip(d['index'], d['data']))
+
+        sequence = []
+        for i in range(9):
+            j = random.randrange(0, 10, 1)
+            sequence += str(j)
+        sequence = ''.join(sequence)
+        print(sequence)
+        sequence = re.findall('...?', sequence)
+        print(sequence)
+        for chunk in sequence:
+            words = []
+            for word in d[int(chunk)]:
+                if isinstance(word, str): # Do not print nan values from the pandas table
+                    words.append(word)
+            print(random.choice(words))
+
+
 
 
 class MemoryPalace:
@@ -231,7 +268,9 @@ def main():
     os.system('clear')
     j = User('Jonathan')
     j.greeting()
-    j.menu()
+    j.random_digits_with_major()
+    #j.major()
+    #j.menu()
 
 if __name__ == '__main__':
     main()
