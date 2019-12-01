@@ -3,6 +3,7 @@ import time
 import os
 from threading import Timer
 import pandas as pd
+from bs4 import BeautifulSoup
 
 
 class User:
@@ -13,11 +14,33 @@ class User:
     def __init__(self, user_id):
         self.user_id = user_id
 
+    def greeting(self):
+        print(f'Hello, {self.user_id}!')
+
+    def menu(self):
+        print('Welcome to my memory trainer!')
+        game = input('Would like to recall random digits, pi, or cards? Enter pi / random / cards: Or review your system? Enter r: ').lower()
+        if game == 'pi':
+            pi_recall()
+        elif game == 'random':
+            random_digits()
+        elif game == 'cards':
+            d = Deck()
+            d.deck_recall()
+        elif game == 'r':
+            review()
+        elif game == 'test':
+            testing()
+        elif game == 'test2':
+            testing2()        
+
+
 class MemoryPalace:
     """
     Memory Palace class to enable constructing new palaces for users
     """
-    pass
+    def __init__(self, palace):
+        self.palace = palace
 
 # Building a deck of cards as shown in week 4 of class
 class Card:
@@ -50,21 +73,21 @@ class Deck:
                 cards_to_memorize.append(str(card))
         return cards_to_memorize
 
-def deck_recall():
-    """ Beginner friendly verson of faces only. Need to add user choice of how many cards to include"""
-    d = Deck()
-    d.shuffle()
-    print('Start from only face cards.')
-    memorize = d.show_order_begginer()
-    print(memorize)
+    def deck_recall(self):
+        """ Beginner friendly verson of faces only. Need to add user choice of how many cards to include"""
+        d = Deck()
+        d.shuffle()
+        print('Start from only face cards.')
+        memorize = d.show_order_begginer()
+        print(memorize)
 
-    for card in memorize:
-        guess = input('Next card? ')
-        if card == guess:
-            pass
-        else:
-            print('wrong')
-            break
+        for card in memorize:
+            guess = input('Next card? ')
+            if card == guess:
+                pass
+            else:
+                print('wrong')
+                break
 
 def pi_recall():
     # import sys, os
@@ -206,20 +229,9 @@ def create_system():
 
 def main():
     os.system('clear')
-    print('Welcome to my memory trainer!')
-    game = input('Would like to recall random digits, pi, or cards? Enter pi / random / cards: Or review your system? Enter r: ').lower()
-    if game == 'pi':
-        pi_recall()
-    elif game == 'random':
-        random_digits()
-    elif game == 'cards':
-        deck_recall()
-    elif game == 'r':
-        review()
-    elif game == 'test':
-        testing()
-    elif game == 'test2':
-        testing2()
+    j = User('Jonathan')
+    j.greeting()
+    j.menu()
 
 if __name__ == '__main__':
     main()
