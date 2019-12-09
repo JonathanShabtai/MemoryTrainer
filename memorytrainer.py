@@ -6,7 +6,7 @@ import pandas as pd
 import re
 import card_deck
 import pickle
-#  import gc
+# import gc
 
 class Application:
     """
@@ -25,9 +25,7 @@ class Application:
         print('--------')
 
     def menu(self):
-        """
-        Present the main menu of the application to the user.
-        """
+        """ Present the main menu of the application to the user """
         while True:
             print('Main menu:')
             game = input('1. Major System Practice (enter MSP) \n'
@@ -39,7 +37,7 @@ class Application:
                          '7. Modify the 3 digit major dictionary (enter modify_major) \n'
                          '8. Your number quick Mnemonic Generation (enter my_number) \n'
                          '9. Deck recall (enter cards) \n'
-                         'quit to quit \n').lower()
+                         'enter (quit) to quit \n').lower()
             while True:
                 if game == 'msp':
                     self.msp()
@@ -50,7 +48,7 @@ class Application:
                 elif game == 'random':
                     self.random_digits()
                 elif game == 'pao':
-                    self.pao()
+                    self.pao_quiz()
                 elif game == 'palaces':
                     p = MemoryPalace('somePalace')
                     p.palaces_menu()
@@ -65,6 +63,9 @@ class Application:
                     d.deck_recall()
                 elif game == 'quit':
                     quit()
+                else:
+                    print('Error, option does not exist. \n')
+                    self.menu()
 
                 if self.afterpractice() == 'repeat':
                     os.system('clear')
@@ -80,6 +81,8 @@ class Application:
         print('\nThis concludes the current practice.')
         print('If you would like to repeat it, enter (repeat).')
         answer = input('Otherwise, enter (main_menu) and you will be returned to the main menu.\n').lower()
+        while answer not in ['repeat', 'main_menu']:
+            answer = input('Please enter your answer again, (repeat) or (main_menu): ')
         return answer
 
     def msp(self):
@@ -99,13 +102,15 @@ class Application:
         }
 
         print('Here is a quick reminder of how the major system is structured: ')
-        print(pd.DataFrame.from_dict(major_helper, orient='index'))
+        print(pd.DataFrame.from_dict(major_helper, orient='index'))  # Reminder for the user how does the major system works
         print('To learn more, visit: https://en.wikipedia.org/wiki/Mnemonic_major_system')
         df = pd.read_csv('major_dictionary.csv', index_col=0)
         d = df.to_dict('split')
         d = dict(zip(d['index'], d['data']))
+        print('You will need to write the associated number with each word presented.\n')
 
-        number_of_questions = int(input('How many numbers would you like to be quizzed on? '))
+        number_of_questions = input('How many words would you like to be quizzed on? ')
+        number_of_questions = self.input_checker_int(number_of_questions)
 
         correct_count = 0
         for _ in range(number_of_questions):
@@ -120,12 +125,13 @@ class Application:
                         break
             print(random_word)
             answer = input('What is the associated number? ')
-            if int(answer) == random_number:
+            answer = self.input_checker_int(answer)
+
+            if answer == random_number:
                 print('Very good!\n')
                 correct_count += 1
             else:
                 print(f'Not correct! The correct answer was {random_number}.\n')
-
         print(f'You scored {correct_count} out of {number_of_questions}.')
 
 
@@ -134,7 +140,7 @@ class Application:
         d = df.to_dict('split')
         d = dict(zip(d['index'], d['data']))
 
-        p = MemoryPalace('Aparetment')
+        p = MemoryPalace('somePalace')
 
         sequence = []
         for i in range(9):
@@ -158,7 +164,19 @@ class Application:
         if answer == 'y':
             self.major()
 
+    def input_checker_int(self, user_input):
+        flag = True
+        while flag:  # Input error checking
+            try:
+                user_input = int(user_input)
+                flag = False
+            except ValueError:
+                user_input = input('Please enter an integer: ')
+        return user_input
+
+
     def pi_recall(self):
+        """ pi_recall checks the users knowledge of pi digits """
         with open('pi.txt') as f:
             lines = f.readlines()
 
@@ -166,18 +184,22 @@ class Application:
         for line in lines:
             pi += line.strip()
 
-        digits_len = int(input('Please enter how many digits do you plan to recall: '))
-        segments_of_recall = int(input('How many digits would you like to recall at a time? '))
+        digits_len = input('Please enter how many digits do you plan to recall: ')
+        digits_len = self.input_checker_int(digits_len)
+
+        segments_of_recall = (input('How many digits would you like to recall at a time? '))
+        segments_of_recall = self.input_checker_int(segments_of_recall)
 
         for i in range(0, digits_len, segments_of_recall):
             digits = str(input('Enter the next digit of pi: '))
             correct = str(pi[i:(i+segments_of_recall)])
             if digits != correct:
                 print(f'Error, the correct digits were: {pi[i:(i+segments_of_recall)]}')
-                break
-            else:
-                pass  # In case of a mistake
-        # need to add options for review
+                keep_going = input('Continue? Y / N: ').lower()
+                if keep_going == 'y':
+                    continue
+                else:
+                    break
 
     def learn(self, pi_or_num):
         """
@@ -193,15 +215,42 @@ class Application:
             for line in lines:
                 pi += line.strip()
 
-            digits_len = int(input('Please enter how many digits do you plan to review: '))
+            digits_len = input('Please enter how many digits do you plan to review: ')
+            digits_len = self.input_checker_int(digits_len)
 
-        elif pi_or_num == 'num':
-            pi = input('Enter your number')
+        elif pi_or_num == 'num':  # User gets to choose a number
+            pi = input('Enter your number: ')
+            pi = self.input_checker_int(pi)
+            pi = str(pi)
             digits_len = len(pi)
 
-        segments_of_recall = int(input('How many digits would you like to review at a time (2 or 3)? '))
+        segments_of_recall = input('How many digits would you like to review at a time (2 or 3)? ')
+        while segments_of_recall not in ['2', '3']:
+            segments_of_recall = input('Only 2 or 3 please: ')
+
+        segments_of_recall = int(segments_of_recall)
+
+        if segments_of_recall == 3:
+            # Add zeros before the number until it can be divided by 3
+            while digits_len % 3 != 0:
+                pi = '0' + pi
+                digits_len += 1
+
+        if segments_of_recall == 2:
+            # Add zeros before the number until it can be divided by 2
+            if digits_len % 2 != 0:
+                pi = '0' + pi
+                digits_len += 1
+
         own_or_automated = input('Own numbers system or Automated (O / A)? ').lower()
-        memory_palace_y_n = input('With palace (Y / N)? ').lower()
+        while own_or_automated not in ['o', 'a']:
+            own_or_automated = input('Illegal input, (O / A) only: ').lower()
+        if own_or_automated == 'o':
+            memory_palace_y_n = input('With palace (Y / N)? ').lower()  # Memory palace is only offered when using your own systems
+            while memory_palace_y_n not in ['y', 'n']:
+                memory_palace_y_n = input('Illegal input, (Y / N) only: ').lower()
+        else:
+            memory_palace_y_n = 'n'
 
         with_palace = False
         if memory_palace_y_n == 'y':
@@ -211,45 +260,71 @@ class Application:
             p.print_all_palaces()
             memory_palace = input('Pick one: ')
             list_of_rooms = p.print(memory_palace)
+            counter = 0  # counter keeps track of which room to use next
             
-
         if own_or_automated == 'o':
-            segments_of_recall = 2
-            j = 1
-            counter = 0
-            for i in range(0, digits_len, segments_of_recall):
-                correct = str(pi[i:(i+segments_of_recall)])
-                if not with_palace:
-                    print(f'{correct}: {self.pao_helper(int(correct), j)}')
-                else:
-                    if j == 1:
-                        try:
-                            print(f'Room for next 3 segments: {list_of_rooms[counter]}.')
-                            print(f'{correct}: {self.pao_helper(int(correct), j)}')
-                        except IndexError:  # Out of rooms in the palace
-                            print(f'{correct}: {self.pao_helper(int(correct), j)}')
-                    else:
+            if segments_of_recall == 2:
+                j = 1
+                for i in range(0, digits_len, segments_of_recall):
+                    correct = str(pi[i:(i+segments_of_recall)])
+                    if not with_palace:
                         print(f'{correct}: {self.pao_helper(int(correct), j)}')
-                j += 1
-                if j == 4:  # Reset counter j for pao_helper use
-                    j = 1
-                    counter += 1  # Move to the next room
+                    else:
+                        if j == 1:
+                            try:
+                                print(f'Room for next 3 segments: {list_of_rooms[counter]}.')
+                                print(f'{correct}: {self.pao_helper(int(correct), j)}')
+                            except IndexError:  # Out of rooms in the palace
+                                print(f'{correct}: {self.pao_helper(int(correct), j)}')
+                        else:
+                            print(f'{correct}: {self.pao_helper(int(correct), j)}')
+                    j += 1
+                    if j == 4:  # Reset counter j for pao_helper use
+                        j = 1
+                        counter += 1  # Move to the next room
 
-        elif own_or_automated == 'a':
-            if segments_of_recall == 3:
+            elif segments_of_recall == 3:
                 df = pd.read_csv('major_dictionary.csv', index_col=0)
                 d = df.to_dict('split')
                 d = dict(zip(d['index'], d['data']))
 
+                print(digits_len + ' digits len')
+
                 for i in range(0, digits_len, segments_of_recall):
                     words = []
                     correct = str(pi[i:(i+segments_of_recall)])
-                    for word in d[int(correct)]:
-                        if isinstance(word, str):  # Do not print nan values from the pandas table
+                    for word in d[int(correct)]:  # Create a list of words associated with the 3 digits
+                        if isinstance(word, str):
                             words.append(word.rstrip(','))
-                    print(f'{random.choice(words)}')
+                    flag = False
+                    for word in words:
+                        if '*' in word:  # for the "Own" system, take in count the starred values, aka favorites
+                            flag = True
+                            fav_word = word
+                            break
 
-            elif segments_of_recall == 2:
+                    if flag:  # Favorite word was found
+                        if not with_palace:
+                            print(f'{correct}: {fav_word.rstrip("*")}')
+                        else:
+                            try:
+                                print(f'{correct}: {list_of_rooms[counter]}: {word.rstrip("*")}')
+                                counter += 1
+                            except IndexError:  # Out of rooms in the palace
+                                print(f'{correct}: {word.rstrip("*")}')
+
+                    else:  # No favorite word was found
+                        if not with_palace:
+                            print(f'{correct}: {random.choice(words)}')
+                        else:
+                            try:
+                                print(f'{correct}: {list_of_rooms[counter]}: {random.choice(words)}')
+                                counter += 1
+                            except IndexError:  # Out of rooms in the palace
+                                print(f'{correct}: {random.choice(words)}')
+
+        elif own_or_automated == 'a':
+            if segments_of_recall == 2:
                 df = pd.read_csv('nelsonpeg.csv', index_col=0)  # Using recommended system from Remember it! book
                 d = df.to_dict('split')
                 d = dict(zip(d['index'], d['data']))
@@ -262,11 +337,29 @@ class Application:
                             words.append(word.rstrip(','))
                     print(f'{random.choice(words)}')
 
+            elif segments_of_recall == 3:
+                df = pd.read_csv('major_dictionary.csv', index_col=0)
+                d = df.to_dict('split')
+                d = dict(zip(d['index'], d['data']))
+
+                for i in range(0, digits_len, segments_of_recall):
+                    words = []
+                    correct = str(pi[i:(i+segments_of_recall)])
+                    for word in d[int(correct)]:
+                        if isinstance(word, str):  # Do not print nan values from the pandas table
+                            word = word.rstrip(',')
+                            word = word.rstrip('*')
+                            words.append(word)
+                    print(f'{correct}: {random.choice(words)}')
+
 
     def random_digits(self):
-        # add try block for bad user input
+        """ random_digits checks the users knowledge of recalling random digits in a timely manner """
         length_of_sequence = input('Please enter the length of string you wish to recall: ')
-        segments_of_recall = int(input('How many digits would you like to recall at a time? '))
+        length_of_sequence = self.input_checker_int(length_of_sequence)
+
+        segments_of_recall = input('How many digits would you like to recall at a time? ')
+        segments_of_recall = self.input_checker_int(segments_of_recall)
 
         sequence = ''
 
@@ -276,7 +369,7 @@ class Application:
             sequence += str(j)
 
         sec = input('How many seconds would you need to review the number? ')
-        sec = int(sec)
+        sec = self.input_checker_int(sec)
 
         def timeout():
             """ using threaing for a recall timer """
@@ -321,21 +414,8 @@ class Application:
             return
 
 
-    def review(self):
-        print(pd.read_csv('JSystem.csv', delimiter=','))
-        f = pd.read_csv('JSystem.csv', delimiter=',')
-        while True:
-            for _ in range(5):
-                number = random.randrange(0, 100, 1)
-                print(number)
-                print(f.loc[[number]])
-            q = input('Enter q to quit: ')
-            if q == 'q':
-                break
-
-
     def modify_major(self):
-        """ Review of the major system for each user. """
+        """ Review of the major system in the csv file. Allows user to make additions to the table. """
         df = pd.read_csv('major_dictionary.csv', index_col=0)
         d = df.to_dict('split')
         d = dict(zip(d['index'], d['data']))
@@ -344,12 +424,12 @@ class Application:
         while number != 'main_menu':
             words = []
             for word in d[int(number)]:
-                if isinstance(word, str):  # Do not print nan
+                if isinstance(word, str):  # Do not print nan values
                     if word not in ['Sorry', 'no', 'results.' ,':(']:
                         words.append(word)
             print(words)
             add_to_dict = input('Would you like to add to that number?'
-                                'N / if yes, then enter your word. Add * to make it a favorite: ').lower()
+                                '(N) if not / if yes, then enter your word. Add * to make it a favorite: ').lower()
             if add_to_dict != 'n': #  Fix this first thing
                 print(str(len(words)) + ' is the len')
                 df.at[int(number), str(len)] = add_to_dict
@@ -358,9 +438,11 @@ class Application:
                 d = dict(zip(d['index'], d['data']))
 
             number = input('Which other number would you like to review? type main_menu to return. ')
+            number = self.input_checker_int(number)
 
 
     def pao_helper(self, num, position):
+        """ Helper function that connects my PAO system to numbers """
         f = pd.read_csv('JSystem.csv', delimiter=',')
         positionDict = {
             1: 'P',
@@ -371,30 +453,31 @@ class Application:
 
 
     def pao_quiz(self):
+        """ Gives the user numbers to practice the associated person to that number """
         f = pd.read_csv('JSystem.csv', delimiter=',')
         while True:
             number = random.randrange(0, 100, 1)
             print(number)
             peg = input('Who is the person? ')
-            # print(f['N'][number])
-            pao_helper(number, random.randrange(1, 4, 1))
+            self.pao_helper(number, random.randrange(1, 4, 1))
             if peg == str(f['N'][number]):
                 continue
             else:
-                pass
-            # print(f.loc[[number]])
-            q = input('Enter q to quit: ')
-            if q == 'q':
+                print(f'The correct answer is: {str(f["P"][number])}')
+            q = input('Enter (quit) to quit, or Enter to continue: ')
+            if q == 'quit':
                 break
 
 class MemoryPalace:
     """
     Memory Palace class to enable constructing new palaces, or using existing ones.
+    Utilizes pickeling in order to load lists saved in past runs of the program.
     """
     def __init__(self, palace):
         self.palace = palace
 
     def palaces_menu(self):
+        """ Main menu for palaces """
         answer = input('Would you like to create a new palace (new), delete (del), modify (mod), or visit (visit)? ').lower()
         if answer == 'new':
             new_palace = input('We are set to create a new palace. What would be the name of it? ')
@@ -452,7 +535,6 @@ class MemoryPalace:
         self.save(new_palace)
 
     def print(self, name_of_palace):
-        #current_palace = load(self)
         list_of_rooms = []
         for i, room in enumerate(self.use_palace(name_of_palace)):
             print(f'{i+1}. {room}')
@@ -464,6 +546,7 @@ class MemoryPalace:
         os.remove(path + '/' + name_of_palace + '.pickle')
 
     def mod(self, name_of_palace):
+        """ Enter new rooms to an existing palace """
         to_modify = self.load(name_of_palace)
         room = ''
         location = input('Enter next location (type stop to stop): ')
