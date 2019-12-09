@@ -6,13 +6,13 @@ import pandas as pd
 import re
 import card_deck
 import pickle
-# import gc
+
 
 class Application:
     """
-    A class used to run the application 
+    A class used to run the application
     Attributes: The class itself is a list, so no attributes necessary.
-    Methods: menu, major, afterpractice, random_digits_with_major, pi_recall, pi_learn, random_digits, 
+    Methods: menu, major, afterpractice, random_digits_with_major, pi_recall, pi_learn, random_digits,
     """
     def __init__(self):
         pass
@@ -42,7 +42,7 @@ class Application:
                 if game == 'msp':
                     self.msp()
                 elif game == 'pi_learn':
-                    self.learn('pi')              
+                    self.learn('pi')
                 elif game == 'pi':
                     self.pi_recall()
                 elif game == 'random':
@@ -75,7 +75,6 @@ class Application:
                     break
             self.menu()
 
-
     def afterpractice(self):
         """ Repeat or menu options for user """
         print('\nThis concludes the current practice.')
@@ -87,18 +86,17 @@ class Application:
 
     def msp(self):
         """ Practice major system knowledge using the major_dictionary.csv file. """
-
         major_helper = {
-        '0': ['s', 'z'],
-        '1': ['t', 'd', 'th'],
-        '2': ['n'],
-        '3': ['m'],
-        '4': ['r'],
-        '5': ['l'],
-        '6': ['j', 'ch', 'sh'],
-        '7': ['c', 'k', 'g', 'q', 'ck'],
-        '8': ['v', 'f', 'ph'],
-        '9': ['p', 'b']
+            '0': ['s', 'z'],
+            '1': ['t', 'd', 'th'],
+            '2': ['n'],
+            '3': ['m'],
+            '4': ['r'],
+            '5': ['l'],
+            '6': ['j', 'ch', 'sh'],
+            '7': ['c', 'k', 'g', 'q', 'ck'],
+            '8': ['v', 'f', 'ph'],
+            '9': ['p', 'b']
         }
 
         print('Here is a quick reminder of how the major system is structured: ')
@@ -119,8 +117,8 @@ class Application:
                 random_word = random.choice(d[random_number])
                 if isinstance(random_word, str):
                     random_word = random_word.rstrip(',')
-                    if random_word in ['Sorry', 'no', 'results.' ,':(']: #  Some number do not have a match
-                        random_number = random.randrange(0, 1000, 1) #  Pick another number for the user
+                    if random_word in ['Sorry', 'no', 'results.', ':(']:  # Some number do not have a match
+                        random_number = random.randrange(0, 1000, 1)  # Pick another number for the user
                     else:
                         break
             print(random_word)
@@ -133,7 +131,6 @@ class Application:
             else:
                 print(f'Not correct! The correct answer was {random_number}.\n')
         print(f'You scored {correct_count} out of {number_of_questions}.')
-
 
     def random_digits_with_major(self):
         df = pd.read_csv('major_dictionary.csv', index_col=0)
@@ -173,7 +170,6 @@ class Application:
             except ValueError:
                 user_input = input('Please enter an integer: ')
         return user_input
-
 
     def pi_recall(self):
         """ pi_recall checks the users knowledge of pi digits """
@@ -261,7 +257,7 @@ class Application:
             memory_palace = input('Pick one: ')
             list_of_rooms = p.print(memory_palace)
             counter = 0  # counter keeps track of which room to use next
-            
+
         if own_or_automated == 'o':
             if segments_of_recall == 2:
                 j = 1
@@ -287,8 +283,6 @@ class Application:
                 df = pd.read_csv('major_dictionary.csv', index_col=0)
                 d = df.to_dict('split')
                 d = dict(zip(d['index'], d['data']))
-
-                print(digits_len + ' digits len')
 
                 for i in range(0, digits_len, segments_of_recall):
                     words = []
@@ -352,7 +346,6 @@ class Application:
                             words.append(word)
                     print(f'{correct}: {random.choice(words)}')
 
-
     def random_digits(self):
         """ random_digits checks the users knowledge of recalling random digits in a timely manner """
         length_of_sequence = input('Please enter the length of string you wish to recall: ')
@@ -413,7 +406,6 @@ class Application:
         else:
             return
 
-
     def modify_major(self):
         """ Review of the major system in the csv file. Allows user to make additions to the table. """
         df = pd.read_csv('major_dictionary.csv', index_col=0)
@@ -425,12 +417,12 @@ class Application:
             words = []
             for word in d[int(number)]:
                 if isinstance(word, str):  # Do not print nan values
-                    if word not in ['Sorry', 'no', 'results.' ,':(']:
+                    if word not in ['Sorry', 'no', 'results.', ':(']:
                         words.append(word)
             print(words)
             add_to_dict = input('Would you like to add to that number?'
                                 '(N) if not / if yes, then enter your word. Add * to make it a favorite: ').lower()
-            if add_to_dict != 'n': #  Fix this first thing
+            if add_to_dict != 'n':  # Fix this first thing
                 print(str(len(words)) + ' is the len')
                 df.at[int(number), str(len)] = add_to_dict
                 df.to_csv('major_dictionary.csv')
@@ -439,7 +431,6 @@ class Application:
 
             number = input('Which other number would you like to review? type main_menu to return. ')
             number = self.input_checker_int(number)
-
 
     def pao_helper(self, num, position):
         """ Helper function that connects my PAO system to numbers """
@@ -450,7 +441,6 @@ class Application:
             3: 'O'
         }
         return (f.loc[num, positionDict[position]])
-
 
     def pao_quiz(self):
         """ Gives the user numbers to practice the associated person to that number """
@@ -467,6 +457,7 @@ class Application:
             q = input('Enter (quit) to quit, or Enter to continue: ')
             if q == 'quit':
                 break
+
 
 class MemoryPalace:
     """
@@ -523,7 +514,7 @@ class MemoryPalace:
 
     def save(self, new_palace):
         print(str(self.palace))
-        pickle_out = open(str(self.palace) +'.pickle', 'wb')
+        pickle_out = open(str(self.palace) + '.pickle', 'wb')
         pickle.dump(new_palace, pickle_out)
         pickle_out.close()
 
