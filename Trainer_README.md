@@ -1,11 +1,19 @@
 # Jonathan Shabtai MPCS 51046 (Autumn 2019)
 
 ## Memory Trainer
-My project 
+My project is designed to train users primarily in numbers memorization. In order to run the application, please clone the github reporitory to your machine. The application runs on the command-line (Terminal, Shell). You will need to have Python3 installed on your system, and with python run "memorytrainer.py".
+
+The application uses a few 3rd party modules: beautiful soup along with urllib.request for webscraping, pickle to keep information after closing the application, Pandas to work with csv files. You may need to pip install these 3rd party modules to interact fully with my project.
+
+The most interesting parts of my application are the pi_learn and my_number options. They construct for  user a system to remember pi or a manually given number with either the user's system, or an automatically generated one. If the user chooses his / her own system, they can use a memory palace of their choice.
+
+To create new palaces, enter (palaces) and follow the prompt. The palace will be pickled for future use. User's can modify their 3 digit major system dictonary and add entries to it by using the (modify_major) option. Enter a star (\*) if you want the program to give special preferrence to that word.
+
+A few points to note: some lines are too long per the nature of the project, and do not confirm with PEP8. However, breaking those line would make the code less readable. The lines are just a bit longer than 79 characters, so I decided to leave them as is.
 
 
 
-
+## Proposal
 Brain and memory games are ubiquitous on the internet as of late. Although they are fun and entertaining, they all lack in flexibility and are fixed with their pre-built settings. They do not walk the users through the foundations of developing memory techniques such as memory palaces and systems. They assume that the users have done their work, are proficient, and just look to train, and as a result can frustrate beginners. The learning curve for memorizing a string of numbers or a deck of cards is very steep without proper help.
 
 For my project, I will build a robust memory trainer that assists users in improving their memory in a more effective way, one step at a time. The program will help users build strong foundations for digits memorization utilizing the [major system](https://en.wikipedia.org/wiki/Mnemonic_major_system). Finding good mnemonics using the system can be challenging when starting, and the program will offer suggestions for any digit combination. The program will allow each user to build their own [PAO system](https://artofmemory.com/wiki/Person-Action-Object_(PAO)_System) and then when practicing, offer help in recalling the mnemonics when needed. Specific training on each user’s PAO system will be implemented as well. Another core aspect of the program will be [memory palaces](https://en.wikipedia.org/wiki/Method_of_loci). The users will have the opportunity to manually build their palaces, and once the information they wish to memorize is recorded, it will automatically be placed in the palace, i.e. the program will populate the memory palace, so that the user can review the information very easily.
