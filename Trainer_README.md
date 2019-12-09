@@ -13,5 +13,7 @@ A few things I had to cut out from the project are: User specific login - I assu
 
 A few points to note: some lines are too long per the nature of the project, and do not confirm with PEP8. However, breaking those lines would make the code less readable. The lines are just a bit longer than 79 characters, so I decided to leave them as is. The major dictionary is not complete as there are values https://major-system.info/en/ could not find words for. The user can add the missing words on the csv file, or modify the file through the modify_major function. The deck recall function is more of a proof of concept, working only with the face cards for beginners. I used the same structure of class for deck and cards presented in class.
 
+For tests, I could not figure out how to use pytest as all of my program is based on user input. I added screen shots in a folder to showcase that the program handles error inputs and works correctly with correct inputs from the user.
+
 For further reading about the subject, I recommend the book "Remember it!" by Nelson Dellis where he covers the subjects in this project extensively.
 Readings: [major system](https://en.wikipedia.org/wiki/Mnemonic_major_system), [PAO system](https://artofmemory.com/wiki/Person-Action-Object_(PAO)_System), [memory palaces](https://en.wikipedia.org/wiki/Method_of_loci).
