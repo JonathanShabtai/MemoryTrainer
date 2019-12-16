@@ -1,0 +1,12 @@
+- Proposal: 10/10
+- Code:
+    - Scope: 20/20, Interesting functionality covering a range of memory training techniques / practices
+    - Usability: 8/10, The command-line user interface worked just fine. Adding some default values and allowing the user to select options by number would have made it a little smoother.
+    - Reusability: 5/5
+    - Readability: 3/5, Some functions were quite long. Also, it might have helped to split up memorytrainer.py into multiple files (perhaps one for each different type of training)
+    - Data structures: 3/5, Not clear what purpose the Appliction class serves since it doesn't seem to encapsulate any data. Also the MemoryPalace class seems to pass around the name of the palace even though it's stored as an attribute on the class? Use of threading.Timer looks unnecessary.
+    - Efficiency: 5/5
+- Tests: 0/10, No tests present for project
+- Documentation: 7/10, Docstrings briefly describe some functions, but others do not include docstrings
+- Presentation: 14/15, Went a bit over the 5 minute time limit
+- Style: 4/5, Mostly conforms to PEP8, a few minor issues with line length, import order
